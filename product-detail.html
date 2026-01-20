@@ -30,8 +30,21 @@
       return params.get('product_id');
     }
 
-    const productId = getProductId();
+    const productId = getProductId() || 'unknown_id';
     const productName = document.getElementById("product-name").innerText;
+
+    // Or better, check if it exists before firing the event
+  if (productId) {
+    gtag('event', 'view_item', {
+      currency: 'USD',
+      value: 499,
+      items: [{
+        item_id: productId,
+        item_name: productName,
+        price: 499
+      }]
+    });
+}
 
     // Fire view_item AFTER everything exists
     gtag('event', 'view_item', {
