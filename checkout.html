@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Checkout</title>
+</head>
+<body>
+  <h1>Checkout</h1>
+
+  <form id="order-form">
+    <label>
+      Email:
+      <input type="email" required>
+    </label>
+    <br><br>
+    <button type="submit">Place Order</button>
+  </form>
+
+  <script>
+    document.getElementById("order-form").addEventListener("submit", function () {
+      console.log("Order placed");
+    });
+  </script>
+</body>
+</html>
