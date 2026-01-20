@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id="G-QZP4DFQ5V1"></script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-QZP4DFQ5V1"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
@@ -26,9 +26,22 @@
   </form>
 
   <script>
-    document.getElementById("order-form").addEventListener("submit", function () {
-      console.log("Order placed");
+  document.getElementById("order-form").addEventListener("submit", function (e) {
+    e.preventDefault(); // stops page reload
+
+    document.body.insertAdjacentHTML(
+      "beforeend",
+      "<p><strong>Order placed successfully</strong></p>"
+    );
+
+    console.log("Order placed");
+
+    gtag('event', 'purchase', {
+      currency: 'USD',
+      value: 499
     });
-  </script>
+  });
+</script>
+  <a href="index.html">Home</a>
 </body>
 </html>
