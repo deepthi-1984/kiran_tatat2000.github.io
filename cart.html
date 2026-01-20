@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Cart</title>
+</head>
+<body>
+  <h1>Your Cart</h1>
+
+  <p>1 item in cart</p>
+
+  <button id="checkout">Proceed to Checkout</button>
+
+  <br><br>
+  <a href="products.html">Continue Shopping</a>
+
+  <script>
+    document.getElementById("checkout").addEventListener("click", function () {
+      console.log("Checkout started");
+      window.location.href = "checkout.html";
+    });
+  </script>
+</body>
+</html>
