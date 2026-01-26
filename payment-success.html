@@ -19,7 +19,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     <button>Go to Home</button>
   </a>
 
-  <p>Redirecting to home in <span id="countdown">5</span> seconds…</p>
+  
 
   <script>
     const params = new URLSearchParams(window.location.search);
@@ -35,18 +35,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
       value: 499,
       currency: 'USD'
     });
-    // countdown + auto redirect
-    let seconds = 5;
-    const el = document.getElementById("countdown");
-
-    setInterval(() => {
-      seconds--;
-      el.innerText = seconds;
-    }, 1000);
-     setTimeout(() => {
-    window.location.href = "https://deepthi-1984.github.io/kiran_tatat2000.github.io/index.html";
-  }, 5000);
-  </script>
+    
 
 </body>
 </html>
