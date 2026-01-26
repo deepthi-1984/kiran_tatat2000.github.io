@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Payment Successful</title>
+</head>
+<body>
+
+  <h1>Payment Successful ✅</h1>
+  <p id="result"></p>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const orderId = params.get("order_id");
+    const status = params.get("status");
+
+    document.getElementById("result").innerText =
+      `Order ${orderId} completed with status: ${status}`;
+
+    // GA4 event (important for practice)
+    gtag('event', 'purchase', {
+      transaction_id: orderId,
+      value: 499,
+      currency: 'USD'
+    });
+  </script>
+
+</body>
+</html>
