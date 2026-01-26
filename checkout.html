@@ -1,50 +1,26 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <!-- Google Tag Manager -->
-<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-})(window,document,'script','dataLayer','GTM-K2QGFTBD');</script>
-<!-- End Google Tag Manager -->
- 
   <meta charset="UTF-8">
   <title>Checkout</title>
 </head>
 <body>
-  <!-- Google Tag Manager (noscript) -->
-<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-K2QGFTBD"
-height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-<!-- End Google Tag Manager (noscript) -->
-  <h1>Checkout</h1>
 
-  <form id="order-form">
-    <label>
-      Email:
-      <input type="email" required>
-    </label>
-    <br><br>
-    <button type="submit">Place Order</button>
-  </form>
+  <h1>Checkout</h1>
+  <p>Total Amount: $499</p>
+
+  <button onclick="goToPayment()">Proceed to Checkout</button>
 
   <script>
-  document.getElementById("order-form").addEventListener("submit", function (e) {
-    e.preventDefault(); // stops page reload
+    function goToPayment() {
+      // redirect to payment website
+      window.location.href =
+        "https://payment-demo-site.github.io/payment.html" +
+        "?order_id=ORD123" +
+        "&currency=
+        "&amount=499";
+    }
+  </script>
 
-    document.body.insertAdjacentHTML(
-      "beforeend",
-      "<p><strong>Order placed successfully</strong></p>"
-    );
-
-    console.log("Order placed");
-
-    gtag('event', 'purchase', {
-      currency: 'USD',
-      value: 499
-    });
-  });
-</script>
-  <a href="index.html">Home</a>
 </body>
 </html>
