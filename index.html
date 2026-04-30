@@ -29,18 +29,32 @@ function pushConsentEvent(eventName, analytics, marketing) {
 </script>
     <script>
 window.addEventListener('CookiebotOnAccept', function () {
-  pushConsentEvent('consent_accept', true, true);
-});
+  pushConsentEvent(
+    'consent_accept',
+    Cookiebot.consent.statistics,
+    Cookiebot.consent.marketing
+  );
 
-window.addEventListener('CookiebotOnDecline', function () {
-  pushConsentEvent('consent_reject', false, false);
-});
-
-window.addEventListener('CookiebotOnLoad', function () {
+  // Also track update AFTER accept
   pushConsentEvent(
     'consent_update',
     Cookiebot.consent.statistics,
     Cookiebot.consent.marketing
+  );
+});
+
+window.addEventListener('CookiebotOnDecline', function () {
+  pushConsentEvent(
+    'consent_reject',
+    false,
+    false
+  );
+
+  // Also track update AFTER reject
+  pushConsentEvent(
+    'consent_update',
+    false,
+    false
   );
 });
 </script>
