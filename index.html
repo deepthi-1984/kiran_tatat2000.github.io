@@ -17,7 +17,33 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
   <!-- CMP Script -->
   <script id="Cookiebot" src="https://consent.cookiebot.com/uc.js" data-cbid="90987e1f-ab21-4d1b-b0e9-5ff3b247946b" data-blockingmode="auto" type="text/javascript"></script>
+<script>
+function pushConsentEvent(eventName, analytics, marketing) {
+  window.dataLayer = window.dataLayer || [];
+  dataLayer.push({
+    event: eventName,
+    analytics: analytics,
+    marketing: marketing
+  });
+}
+</script>
+    <script>
+window.addEventListener('CookiebotOnAccept', function () {
+  pushConsentEvent('consent_accept', true, true);
+});
 
+window.addEventListener('CookiebotOnDecline', function () {
+  pushConsentEvent('consent_reject', false, false);
+});
+
+window.addEventListener('CookiebotOnLoad', function () {
+  pushConsentEvent(
+    'consent_update',
+    Cookiebot.consent.statistics,
+    Cookiebot.consent.marketing
+  );
+});
+</script>
 </head>
 <body>
     <!-- Google Tag Manager (noscript) -->
