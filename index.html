@@ -29,11 +29,15 @@ function pushConsentEvent(eventName, analytics, marketing) {
 </script>
     <script>
 window.addEventListener('CookiebotOnAccept', function () {
-  pushConsentEvent(
-    'consent_accept',
-    Cookiebot.consent.statistics,
-    Cookiebot.consent.marketing
-  );
+  if (!window.consentTracked) {
+    pushConsentEvent(
+      'consent_accept',
+      Cookiebot.consent.statistics,
+      Cookiebot.consent.marketing
+    );
+    window.consentTracked = true;
+  }
+});
 
   // Also track update AFTER accept
   pushConsentEvent(
