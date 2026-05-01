@@ -57,8 +57,9 @@ window.addEventListener('CookiebotOnDecline', function () {
     false
   );
 });
-document.addEventListener('DOMContentLoaded', function () {
-  pushConsentEvent('consent_banner_view', null, null);
+window.dataLayer = window.dataLayer || [];
+window.dataLayer.push({
+  event: "consent_banner_view"
 });
 </script>
 </head>
