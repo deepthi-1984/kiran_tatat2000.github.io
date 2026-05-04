@@ -33,7 +33,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 window.dataLayer = window.dataLayer || [];
 
 const params = new URLSearchParams(window.location.search);
-const orderId = params.get("order_id");
+const orderId = params.get("order_id") || "unknown_order";
 
 const items = [{
   item_id: "101",
@@ -51,6 +51,9 @@ dataLayer.push({
     items: items
   }
 });
+
+document.getElementById("result").innerText =
+  `Order ${orderId} completed successfully`;
 </script>
 </body>
 </html>
