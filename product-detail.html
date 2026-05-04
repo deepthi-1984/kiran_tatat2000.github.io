@@ -37,50 +37,46 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     </nav>
   <hr>
   <script>
-    function getProductId() {
-      const params = new URLSearchParams(window.location.search);
-      return params.get('product_id');
-    }
-
-    const productId = getProductId() || 'unknown_id';
-    const productName = document.getElementById("product-name").innerText;
-
-    // Or better, check if it exists before firing the event
-  if (productId) {
-    gtag('event', 'view_item', {
-      currency: 'USD',
-      value: 499,
-      items: [{
-        item_id: productId,
-        item_name: productName,
-        price: 499
-      }]
-    });
+function getProductId() {
+  const params = new URLSearchParams(window.location.search);
+  return params.get('product_id');
 }
 
-    // Fire view_item AFTER everything exists
-    gtag('event', 'view_item', {
-      currency: 'USD',
-      value: 499,
+const productId = getProductId() || 'unknown_id';
+const productName = document.getElementById("product-name").innerText;
+const price = 499;
+
+// VIEW ITEM (page load)
+window.dataLayer = window.dataLayer || [];
+dataLayer.push({
+  event: "view_item",
+  ecommerce: {
+    currency: "USD",
+    value: price,
+    items: [{
+      item_id: productId,
+      item_name: productName,
+      price: price
+    }]
+  }
+});
+
+// ADD TO CART
+document.getElementById("add-to-cart").addEventListener("click", function () {
+  dataLayer.push({
+    event: "add_to_cart",
+    ecommerce: {
+      currency: "USD",
+      value: price,
       items: [{
         item_id: productId,
         item_name: productName,
-        price: 499
+        price: price
       }]
-    });
-
-    document.getElementById("add-to-cart").addEventListener("click", function () {
-      gtag('event', 'add_to_cart', {
-        currency: 'USD',
-        value: 499,
-        items: [{
-          item_id: productId,
-          item_name: productName,
-          price: 499
-        }]
-      });
-    });
-  </script>
+    }
+  });
+});
+</script>
 </body>
 </html>
 
