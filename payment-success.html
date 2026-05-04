@@ -29,21 +29,28 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     </nav>
   <hr>
 
-  <script>
-    const params = new URLSearchParams(window.location.search);
-    const orderId = params.get("order_id");
-    const status = params.get("status");
+<script>
+window.dataLayer = window.dataLayer || [];
 
-    document.getElementById("result").innerText =
-      `Order ${orderId} completed with status: ${status}`;
+const params = new URLSearchParams(window.location.search);
+const orderId = params.get("order_id");
 
-    // GA4 event (important for practice)
-    gtag('event', 'purchase', {
-      transaction_id: orderId,
-      value: 499,
-      currency: 'USD'
-    });
-  </script> 
+const items = [{
+  item_id: "101",
+  item_name: "Sample Product",
+  price: 499,
+  quantity: 1
+}];
 
+dataLayer.push({
+  event: "purchase",
+  ecommerce: {
+    transaction_id: orderId,
+    value: 499,
+    currency: "USD",
+    items: items
+  }
+});
+</script>
 </body>
 </html>
