@@ -92,12 +92,13 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     
 
     <script>
-        document.getElementById("cta-button").addEventListener("click", function () {
-           gtag('event', 'cta_click', {
-      page_location: window.location.href
-    });
-        });
-    </script>
-    
+document.getElementById("cta-button").addEventListener("click", function () {
+  window.dataLayer = window.dataLayer || [];
+  dataLayer.push({
+    event: "cta_click",
+    page_location: window.location.href
+  });
+});
+</script>
 </body>
 </html>
