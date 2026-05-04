@@ -36,10 +36,27 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     </nav>
   <hr>
   <script>
-    document.getElementById("checkout").addEventListener("click", function () {
-      console.log("Checkout started");
-      window.location.href = "checkout.html";
-    });
-  </script>
+window.dataLayer = window.dataLayer || [];
+
+// Example cart (you can make dynamic later)
+const cartItems = [{
+  item_id: "101",
+  item_name: "Sample Product",
+  price: 499,
+  quantity: 1
+}];
+
+const totalAmount = 499;
+
+// VIEW CART
+dataLayer.push({
+  event: "view_cart",
+  ecommerce: {
+    currency: "USD",
+    value: totalAmount,
+    items: cartItems
+  }
+});
+</script>
 </body>
 </html>
