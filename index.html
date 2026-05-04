@@ -35,36 +35,24 @@ window.addEventListener('CookiebotOnAccept', function () {
       Cookiebot.consent.statistics,
       Cookiebot.consent.marketing
     );
+
+    pushConsentEvent(
+      'consent_update',
+      Cookiebot.consent.statistics,
+      Cookiebot.consent.marketing
+    );
+
     window.consentTracked = true;
   }
 });
 
-  // Also track update AFTER accept
-  pushConsentEvent(
-    'consent_update',
-    Cookiebot.consent.statistics,
-    Cookiebot.consent.marketing
-  );
-});
-
 window.addEventListener('CookiebotOnDecline', function () {
-  pushConsentEvent(
-    'consent_reject',
-    false,
-    false
-  );
+  pushConsentEvent('consent_reject', false, false);
+  pushConsentEvent('consent_update', false, false);
+});
 
-  // Also track update AFTER reject
-  pushConsentEvent(
-    'consent_update',
-    false,
-    false
-  );
-});
 window.dataLayer = window.dataLayer || [];
-window.dataLayer.push({
-  event: "consent_banner_view"
-});
+dataLayer.push({ event: "consent_banner_view" });
 </script>
 </head>
 <body>
