@@ -28,15 +28,27 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   <hr>
 
   <script>
-    function goToPayment() {
-      // redirect to payment website
-      window.location.href =
-        "https://deepthi-1984.github.io/payment-demo-site/payment.html" +
-        "?order_id=ORD123" +
-        "&currency=USD"+
-        "&amount=499";
-    }
-  </script>
+window.dataLayer = window.dataLayer || [];
+
+const cartItems = [{
+  item_id: "101",
+  item_name: "Sample Product",
+  price: 499,
+  quantity: 1
+}];
+
+const totalAmount = 499;
+
+// BEGIN CHECKOUT
+dataLayer.push({
+  event: "begin_checkout",
+  ecommerce: {
+    currency: "USD",
+    value: totalAmount,
+    items: cartItems
+  }
+});
+</script>
 
 </body>
 </html>
