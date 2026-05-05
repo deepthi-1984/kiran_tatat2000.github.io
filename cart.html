@@ -22,7 +22,13 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
   <p>1 item in cart</p>
 
-  <button id="checkout">Proceed to Checkout</button>
+  <button onclick="goToCheckout()">Proceed to Checkout</button>
+  <script>
+function goToCheckout() {
+  window.location.href =
+    "checkout.html?order_id=ORD123&status=success";
+}
+</script>
 
   <br><br>
   <a href="products.html">Continue Shopping</a>
