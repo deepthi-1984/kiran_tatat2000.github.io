@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Cart Cleared</title>
+    <!-- Google Tag Manager / GA4 Script here -->
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        dataLayer.push({
+            'event': 'cart_cleared',
+            'ecommerce': {
+                'action': 'clear',
+                'timestamp': new Date().toISOString()
+            }
+        });
+    </script>
+</head>
+<body>
+    <h1>Your cart has been cleared.</h1>
+    <p>All items have been removed from your shopping session.</p>
+    <a href="index.html">Return to Shop</a>
+</body>
+</html>
