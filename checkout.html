@@ -23,6 +23,19 @@ function goToPayment() {
     "payment-success.html?order_id=ORD123&status=success";
 }
 </script>
+  <!-- Clear Cart Button -->
+<button onclick="clearCart()">🗑 Clear Cart</button>
+
+<script>
+  function clearCart() {
+    // Clear cart from localStorage
+    localStorage.removeItem('cart');
+    localStorage.removeItem('cartItems');
+
+    // Redirect to cart cleared page
+    window.location.href = 'cart-cleared.html';
+  }
+</script>
   <nav>
         <a href="index.html">Home</a> |
         <a href="products.html">View Products</a> |
