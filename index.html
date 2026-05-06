@@ -88,5 +88,22 @@ document.getElementById("cta-button").addEventListener("click", function () {
   });
 });
 </script>
+    <script>function clearCart() {
+    window.dataLayer = window.dataLayer || [];
+
+    // 1. Clear previous ecommerce data
+    window.dataLayer.push({ 'ecommerce': null });
+
+    // 2. Push the event to GA4
+    window.dataLayer.push({
+        'event': 'cart_cleared'
+    });
+
+    // 3. REDIRECT to the cancelled page
+    // This is the line that actually opens the next page
+    window.location.href = "order-cancelled.html"; 
+}
+</script>
+    
 </body>
 </html>
