@@ -97,9 +97,16 @@ document.getElementById("cta-button").addEventListener("click", function () {
 <script>
 window.dataLayer = window.dataLayer || [];
 
+var consentStatus = 'rejected';
+
+// Check Cookiebot consent
+if (window.Cookiebot && Cookiebot.consent.statistics) {
+  consentStatus = 'accepted';
+}
+
 dataLayer.push({
   event: 'user_data',
-  consent_status: 'accepted',
+  consent_status: consentStatus,
   privacy_region: 'CCPA',
   customer_stage: 'shopper'
 });
