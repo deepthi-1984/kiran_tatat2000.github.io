@@ -119,7 +119,9 @@ if (!products[productId]) {
   });
 
   // ADD TO CART EVENT
-  // GET EXISTING CART
+  document.getElementById("add-to-cart")
+    .addEventListener("click", function () {
+      // GET EXISTING CART
 let cart =
   JSON.parse(localStorage.getItem("cart")) || [];
 
@@ -146,8 +148,6 @@ if (existingItem) {
 
 // SAVE BACK TO STORAGE
 localStorage.setItem("cart", JSON.stringify(cart));
-  document.getElementById("add-to-cart")
-    .addEventListener("click", function () {
 
       dataLayer.push({
         event: "add_to_cart",
