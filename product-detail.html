@@ -119,6 +119,33 @@ if (!products[productId]) {
   });
 
   // ADD TO CART EVENT
+  // GET EXISTING CART
+let cart =
+  JSON.parse(localStorage.getItem("cart")) || [];
+
+// CHECK IF PRODUCT EXISTS
+const existingItem = cart.find(function(item) {
+  return item.item_id === productId;
+});
+
+if (existingItem) {
+
+  existingItem.quantity += 1;
+
+} else {
+
+  cart.push({
+    item_id: productId,
+    item_name: product.item_name,
+    item_category: product.category,
+    price: product.price,
+    quantity: 1
+  });
+
+}
+
+// SAVE BACK TO STORAGE
+localStorage.setItem("cart", JSON.stringify(cart));
   document.getElementById("add-to-cart")
     .addEventListener("click", function () {
 
