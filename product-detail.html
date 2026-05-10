@@ -85,13 +85,9 @@ function getProductId() {
 
 const productId = getProductId();
 
-// FALLBACK CHECK
-if (!products[productId]) {
-
-  document.getElementById("product-name").innerText = "Product Not Found";
-
-} else {
-
+<a href="product-detail.html?product_id=laptop_1">Laptop</a>
+<a href="product-detail.html?product_id=smartwatch_1">Smartwatch</a>
+<a href="product-detail.html?product_id=headphone_1">Headphones</a>
   // GET PRODUCT DATA
   const product = products[productId];
 
