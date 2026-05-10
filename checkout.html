@@ -1,23 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Checkout</title>
+
+  <!-- Google Tag Manager -->
+  <script>
+  (function(w,d,s,l,i){
+    w[l]=w[l]||[];
+    w[l].push({
+      'gtm.start': new Date().getTime(),
+      event:'gtm.js'
+    });
+
+    var f=d.getElementsByTagName(s)[0],
+        j=d.createElement(s),
+        dl=l!='dataLayer' ? '&l='+l : '';
+
+    j.async=true;
+    j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;
+
+    f.parentNode.insertBefore(j,f);
+
+  })(window,document,'script','dataLayer','GTM-K2QGFTBD');
+  </script>
+  <!-- End Google Tag Manager -->
+
+</head>
+
+<body>
+
+  <!-- Google Tag Manager (noscript) -->
+  <noscript>
+    <iframe
+      src="https://www.googletagmanager.com/ns.html?id=GTM-K2QGFTBD"
+      height="0"
+      width="0"
+      style="display:none;visibility:hidden">
+    </iframe>
+  </noscript>
+  <!-- End Google Tag Manager (noscript) -->
+
+  <h1>Checkout</h1>
+
+  <div id="checkout-container"></div>
+
+  <h2 id="checkout-total"></h2>
+
+  <button onclick="goToPayment()">
+    Proceed to Payment
+  </button>
+
+  <br><br>
+
+  <button onclick="clearCart()">
+    Clear Cart
+  </button>
+
+  <br><br>
+
+  <nav>
+    <a href="index.html">Home</a> |
+    <a href="products.html">View Products</a> |
+    <a href="product-detail.html">Product Detail</a> |
+    <a href="cart.html">Cart</a> |
+    <a href="checkout.html">Checkout</a> |
+    <a href="about.html">About</a>
+  </nav>
+
+  <hr>
+
 <script>
+
 window.dataLayer = window.dataLayer || [];
 
 // GET CART FROM LOCAL STORAGE
 const cartItems =
   JSON.parse(localStorage.getItem("cart")) || [];
 
-// CALCULATE TOTAL
+// DOM ELEMENTS
+const checkoutContainer =
+  document.getElementById("checkout-container");
+
+const checkoutTotal =
+  document.getElementById("checkout-total");
+
 let totalAmount = 0;
 
-cartItems.forEach(function(item) {
-  totalAmount += item.price * item.quantity;
-});
-
-// IF CART EMPTY
+// EMPTY CART CHECK
 if (cartItems.length === 0) {
 
-  console.warn("Cart is empty - checkout should not proceed");
+  checkoutContainer.innerHTML =
+    "<p>Your cart is empty.</p>";
 
 } else {
+
+  // RENDER PRODUCTS
+  cartItems.forEach(function(item) {
+
+    totalAmount += item.price * item.quantity;
+
+    checkoutContainer.innerHTML += `
+      <div>
+        <h3>${item.item_name}</h3>
+
+        <p>
+          Category: ${item.item_category}
+        </p>
+
+        <p>
+          Price: $${item.price}
+        </p>
+
+        <p>
+          Quantity: ${item.quantity}
+        </p>
+
+        <hr>
+      </div>
+    `;
+
+  });
+
+  // SHOW TOTAL
+  checkoutTotal.innerText =
+    "Total Amount: $" + totalAmount;
 
   // BEGIN CHECKOUT EVENT
   dataLayer.push({
@@ -29,5 +140,30 @@ if (cartItems.length === 0) {
     }
   });
 
+  console.log("begin_checkout fired");
+
 }
+
+// PROCEED TO PAYMENT
+function goToPayment() {
+
+  window.location.href =
+    "payment.html?status=success";
+
+}
+
+// CLEAR CART
+function clearCart() {
+
+  localStorage.removeItem("cart");
+
+  alert("Cart cleared");
+
+  window.location.reload();
+
+}
+
 </script>
+
+</body>
+</html>
