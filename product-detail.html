@@ -56,6 +56,8 @@
 
 <script>
 
+window.dataLayer = window.dataLayer || [];
+
 // PRODUCT DATABASE
 const products = {
   laptop_1: {
@@ -77,29 +79,33 @@ const products = {
   }
 };
 
-// GET PRODUCT ID FROM URL
+// GET PRODUCT ID
 function getProductId() {
   const params = new URLSearchParams(window.location.search);
-  return params.get('product_id');
+  return params.get("product_id");
 }
 
 const productId = getProductId();
+const product = products[productId];
 
-<a href="product-detail.html?product_id=laptop_1">Laptop</a>
-<a href="product-detail.html?product_id=smartwatch_1">Smartwatch</a>
-<a href="product-detail.html?product_id=headphone_1">Headphones</a>
-  // GET PRODUCT DATA
-  const product = products[productId];
+// SAFE CHECK
+if (!product) {
 
-  // UPDATE PAGE CONTENT
-  document.getElementById("product-name").innerText = product.item_name;
+  document.body.innerHTML = `
+    <h1>Product Not Found</h1>
+    <a href="products.html">Go back</a>
+  `;
+
+} else {
+
+  // RENDER UI
+  document.getElementById("product-name").innerText =
+    product.item_name;
 
   document.getElementById("product-price").innerText =
     "$" + product.price;
 
-  // VIEW ITEM EVENT
-  window.dataLayer = window.dataLayer || [];
-
+  // VIEW ITEM
   dataLayer.push({
     event: "view_item",
     ecommerce: {
@@ -114,36 +120,30 @@ const productId = getProductId();
     }
   });
 
-  // ADD TO CART EVENT
+  // ADD TO CART
   document.getElementById("add-to-cart")
     .addEventListener("click", function () {
-      // GET EXISTING CART
-let cart =
-  JSON.parse(localStorage.getItem("cart")) || [];
 
-// CHECK IF PRODUCT EXISTS
-const existingItem = cart.find(function(item) {
-  return item.item_id === productId;
-});
+      let cart =
+        JSON.parse(localStorage.getItem("cart")) || [];
 
-if (existingItem) {
+      const existingItem = cart.find(function(item) {
+        return item.item_id === productId;
+      });
 
-  existingItem.quantity += 1;
+      if (existingItem) {
+        existingItem.quantity += 1;
+      } else {
+        cart.push({
+          item_id: productId,
+          item_name: product.item_name,
+          item_category: product.category,
+          price: product.price,
+          quantity: 1
+        });
+      }
 
-} else {
-
-  cart.push({
-    item_id: productId,
-    item_name: product.item_name,
-    item_category: product.category,
-    price: product.price,
-    quantity: 1
-  });
-
-}
-
-// SAVE BACK TO STORAGE
-localStorage.setItem("cart", JSON.stringify(cart));
+      localStorage.setItem("cart", JSON.stringify(cart));
 
       dataLayer.push({
         event: "add_to_cart",
@@ -160,6 +160,7 @@ localStorage.setItem("cart", JSON.stringify(cart));
       });
 
     });
+
 }
 
 </script>
