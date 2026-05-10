@@ -1,73 +1,33 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Checkout</title>
-  <!-- Google Tag Manager -->
-<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-})(window,document,'script','dataLayer','GTM-K2QGFTBD');</script>
-<!-- End Google Tag Manager -->
-</head>
-<body>
-
-  <h1>Checkout</h1>
-  <p>Total Amount: $499</p>
-
-  <button onclick="goToPayment()">Proceed to Checkout</button>
-  <script>
-function goToPayment() {
-  window.location.href =
-    "payment.html?order_id=ORD123&status=success";
-}
-</script>
-  <!-- Clear Cart Button -->
-<button onclick="clearCart()">🗑 Clear Cart</button>
-
 <script>
-  function clearCart() {
-    // Clear cart from localStorage
-    localStorage.removeItem('cart');
-    localStorage.removeItem('cartItems');
-
-    // Redirect to cart cleared page
-    window.location.href = 'cart-cleared.html';
-  }
-</script>
-  <nav>
-        <a href="index.html">Home</a> |
-        <a href="products.html">View Products</a> |
-        <a href="product-detail.html">Product Detail</a> |
-        <a href="cart.html">Cart</a> |
-        <a href="checkout.html">Checkout</a> |
-        <a href="about.html">About</a>
-    </nav>
-  <hr>
-
-  <script>
 window.dataLayer = window.dataLayer || [];
 
-const cartItems = [{
-  item_id: "101",
-  item_name: "Sample Product",
-  price: 499,
-  quantity: 1
-}];
+// GET CART FROM LOCAL STORAGE
+const cartItems =
+  JSON.parse(localStorage.getItem("cart")) || [];
 
-const totalAmount = 499;
+// CALCULATE TOTAL
+let totalAmount = 0;
 
-// BEGIN CHECKOUT
-dataLayer.push({
-  event: "begin_checkout",
-  ecommerce: {
-    currency: "USD",
-    value: totalAmount,
-    items: cartItems
-  }
+cartItems.forEach(function(item) {
+  totalAmount += item.price * item.quantity;
 });
-</script>
 
-</body>
-</html>
+// IF CART EMPTY
+if (cartItems.length === 0) {
+
+  console.warn("Cart is empty - checkout should not proceed");
+
+} else {
+
+  // BEGIN CHECKOUT EVENT
+  dataLayer.push({
+    event: "begin_checkout",
+    ecommerce: {
+      currency: "USD",
+      value: totalAmount,
+      items: cartItems
+    }
+  });
+
+}
+</script>
