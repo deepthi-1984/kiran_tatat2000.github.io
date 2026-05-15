@@ -78,7 +78,10 @@ function loginUser() {
 
   alert('Login successful');
 
-  window.location.href = 'checkout.html';
+ const redirectPage =
+  localStorage.getItem('redirect_after_login') || 'index.html';
+
+window.location.href = redirectPage;
 }
 
 </script>
