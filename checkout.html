@@ -51,7 +51,7 @@
 
   <h2 id="checkout-total"></h2>
 
-  <button onclick="goToPayment()">
+  <button onclick="proceedToPayment()">
     Proceed to Payment
   </button>
 
@@ -147,11 +147,25 @@ if (cartItems.length === 0) {
 }
 
 // PROCEED TO PAYMENT
-function goToPayment() {
 
-  window.location.href =
-    "payment.html?status=success";
+function proceedToPayment() {
 
+  const loggedInUser = localStorage.getItem('user_id');
+
+  // If user not logged in
+  if (!loggedInUser) {
+
+    // Save intended destination
+    localStorage.setItem('redirect_after_login', 'payment.html');
+
+    // Redirect to login page
+    window.location.href = 'login.html';
+
+    return;
+  }
+
+  // Already logged in
+  window.location.href = 'payment.html';
 }
 
 // CLEAR CART
