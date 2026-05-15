@@ -55,37 +55,32 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
 <script>
+
 function loginUser() {
 
-  const username = document.getElementById('username').value;
+  const userId = document.getElementById('username').value;
 
-  if(username === '') {
-    alert('Please enter username');
+  if(userId === '') {
+    alert('Please enter User ID');
     return;
   }
 
-  // Simulated user account
-  const userId = 'U1001';
-
-  // Store login session
-  localStorage.setItem('loggedInUser', username);
+  // Store session
   localStorage.setItem('user_id', userId);
 
-  // Push login event to dataLayer
+  // Push login event
   window.dataLayer = window.dataLayer || [];
 
   dataLayer.push({
     event: 'login',
-    user_id: userId,
-    login_status: 'success'
+    user_id: userId
   });
 
   alert('Login successful');
 
-  // Redirect after login
   window.location.href = 'checkout.html';
 }
-</script>
 
+</script>
 </body>
 </html>
