@@ -75,7 +75,13 @@ function loginUser() {
     event: 'login',
     user_id: userId
   });
+setTimeout(() => {
+  const redirectPage =
+    localStorage.getItem('redirect_after_login') || 'index.html';
 
+  localStorage.removeItem('redirect_after_login');
+  window.location.href = redirectPage;
+}, 300);
   alert('Login successful');
 
  const redirectPage =
