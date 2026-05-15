@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Login Page</title>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 40px;
+    }
+
+    .login-container {
+      width: 300px;
+      margin: auto;
+      border: 1px solid #ccc;
+      padding: 20px;
+      border-radius: 8px;
+    }
+
+    input {
+      width: 100%;
+      padding: 10px;
+      margin-top: 10px;
+      margin-bottom: 20px;
+    }
+
+    button {
+      width: 100%;
+      padding: 10px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+<div class="login-container">
+  <h2>Customer Login</h2>
+
+  <input type="text" id="username" placeholder="Enter username">
+
+  <input type="password" id="password" placeholder="Enter password">
+
+  <button onclick="loginUser()">Login</button>
+</div>
+
+<script>
+function loginUser() {
+
+  const username = document.getElementById('username').value;
+
+  if(username === '') {
+    alert('Please enter username');
+    return;
+  }
+
+  // Simulated user account
+  const userId = 'U1001';
+
+  // Store login session
+  localStorage.setItem('loggedInUser', username);
+  localStorage.setItem('user_id', userId);
+
+  // Push login event to dataLayer
+  window.dataLayer = window.dataLayer || [];
+
+  dataLayer.push({
+    event: 'login',
+    user_id: userId,
+    login_status: 'success'
+  });
+
+  alert('Login successful');
+
+  // Redirect after login
+  window.location.href = 'checkout.html';
+}
+</script>
+
+</body>
+</html>
