@@ -12,17 +12,19 @@
   <script>
   (function(w,d,s,l,i){
     w[l]=w[l]||[];
+
     w[l].push({
       'gtm.start': new Date().getTime(),
       event:'gtm.js'
     });
 
-    var f=d.getElementsByTagName(s)[0],
-        j=d.createElement(s),
-        dl=l!='dataLayer' ? '&l='+l : '';
+    var f = d.getElementsByTagName(s)[0],
+        j = d.createElement(s),
+        dl = l != 'dataLayer' ? '&l=' + l : '';
 
-    j.async=true;
-    j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;
+    j.async = true;
+    j.src =
+      'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
 
     f.parentNode.insertBefore(j,f);
 
@@ -30,57 +32,84 @@
   </script>
   <!-- End Google Tag Manager -->
 
+  <style>
+
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+    }
+
+    .product-box {
+      border: 1px solid #ccc;
+      padding: 15px;
+      margin-bottom: 15px;
+      border-radius: 6px;
+    }
+
+    button {
+      padding: 10px 16px;
+      cursor: pointer;
+      margin-right: 10px;
+    }
+
+    nav {
+      margin-top: 20px;
+    }
+
+  </style>
+
 </head>
 
 <body>
 
-  <!-- Google Tag Manager (noscript) -->
-  <noscript>
-    <iframe
-      src="https://www.googletagmanager.com/ns.html?id=GTM-K2QGFTBD"
-      height="0"
-      width="0"
-      style="display:none;visibility:hidden">
-    </iframe>
-  </noscript>
-  <!-- End Google Tag Manager (noscript) -->
+<!-- Google Tag Manager (noscript) -->
+<noscript>
+  <iframe
+    src="https://www.googletagmanager.com/ns.html?id=GTM-K2QGFTBD"
+    height="0"
+    width="0"
+    style="display:none;visibility:hidden">
+  </iframe>
+</noscript>
+<!-- End Google Tag Manager (noscript) -->
 
-  <h1>Checkout</h1>
+<h1>Checkout</h1>
 
-  <div id="checkout-container"></div>
+<div id="checkout-container"></div>
 
-  <h2 id="checkout-total"></h2>
+<h2 id="checkout-total"></h2>
 
-  <button onclick="proceedToPayment()">
-    Proceed to Payment
-  </button>
+<button onclick="proceedToPayment()">
+  Proceed to Payment
+</button>
 
-  <br><br>
+<button onclick="clearCart()">
+  Clear Cart
+</button>
 
-  <button onclick="clearCart()">
-    Clear Cart
-  </button>
+<button onclick="logoutUser()">
+  Logout
+</button>
 
-  <br><br>
+<nav>
 
-  <nav>
-    <a href="index.html">Home</a> |
-    <a href="products.html">View Products</a> |
-    <a href="product-detail.html">Product Detail</a> |
-    <a href="cart.html">Cart</a> |
-    <a href="checkout.html">Checkout</a> |
-    <a href="about.html">About</a>
-    <a href="login.html" class="nav-link login-link">Login</a>
+  <a href="index.html">Home</a> |
+  <a href="products.html">Products</a> |
+  <a href="product-detail.html">Product Detail</a> |
+  <a href="cart.html">Cart</a> |
+  <a href="checkout.html">Checkout</a> |
+  <a href="about.html">About</a> |
+  <a href="login.html">Login</a>
 
-  </nav>
+</nav>
 
-  <hr>
+<hr>
 
 <script>
 
 window.dataLayer = window.dataLayer || [];
 
-// GET CART FROM LOCAL STORAGE
+// GET CART
 const cartItems =
   JSON.parse(localStorage.getItem("cart")) || [];
 
@@ -93,7 +122,16 @@ const checkoutTotal =
 
 let totalAmount = 0;
 
-// EMPTY CART CHECK
+// LOGIN CHECK
+function isLoggedIn() {
+
+  const user =
+    localStorage.getItem('user_id');
+
+  return user !== null && user !== '';
+}
+
+// RENDER EMPTY CART
 if (cartItems.length === 0) {
 
   checkoutContainer.innerHTML =
@@ -104,28 +142,33 @@ if (cartItems.length === 0) {
   // RENDER PRODUCTS
   cartItems.forEach(function(item) {
 
-    totalAmount += item.price * item.quantity;
+    totalAmount +=
+      item.price * item.quantity;
 
     checkoutContainer.innerHTML += `
-      <div>
+
+      <div class="product-box">
+
         <h3>${item.item_name}</h3>
 
         <p>
-          Category: ${item.item_category}
+          Category:
+          ${item.item_category}
         </p>
 
         <p>
-          Price: $${item.price}
+          Price:
+          $${item.price}
         </p>
 
         <p>
-          Quantity: ${item.quantity}
+          Quantity:
+          ${item.quantity}
         </p>
 
-        <hr>
       </div>
-    `;
 
+    `;
   });
 
   // SHOW TOTAL
@@ -134,38 +177,61 @@ if (cartItems.length === 0) {
 
   // BEGIN CHECKOUT EVENT
   dataLayer.push({
+
     event: "begin_checkout",
+
     ecommerce: {
+
       currency: "USD",
+
       value: totalAmount,
-      items: cartItems
+
+      items: cartItems.map(item => ({
+
+        item_id:
+          item.item_id || item.item_name,
+
+        item_name:
+          item.item_name,
+
+        item_category:
+          item.item_category,
+
+        price:
+          item.price,
+
+        quantity:
+          item.quantity
+
+      }))
     }
   });
 
   console.log("begin_checkout fired");
-
 }
 
 // PROCEED TO PAYMENT
-
 function proceedToPayment() {
 
-  const loggedInUser = localStorage.getItem('user_id');
+  // CHECK LOGIN
+  if (!isLoggedIn()) {
 
-  // If user not logged in
-  if (!loggedInUser) {
+    // SAVE REDIRECT PAGE
+    localStorage.setItem(
+      'redirect_after_login',
+      'payment.html'
+    );
 
-    // Save intended destination
-    localStorage.setItem('redirect_after_login', 'payment.html');
-
-    // Redirect to login page
-    window.location.href = 'login.html';
+    // REDIRECT TO LOGIN
+    window.location.href =
+      'login.html';
 
     return;
   }
 
-  // Already logged in
-  window.location.href = 'payment.html';
+  // USER LOGGED IN
+  window.location.href =
+    'payment.html';
 }
 
 // CLEAR CART
@@ -175,8 +241,23 @@ function clearCart() {
 
   alert("Cart cleared");
 
-  window.location.href = "cart-cleared.html?status=success";
+  window.location.href =
+    "cart-cleared.html?status=success";
+}
 
+// LOGOUT
+function logoutUser() {
+
+  localStorage.removeItem('user_id');
+
+  localStorage.removeItem(
+    'redirect_after_login'
+  );
+
+  alert('Logged out successfully');
+
+  window.location.href =
+    'login.html';
 }
 
 </script>
