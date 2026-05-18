@@ -245,10 +245,16 @@ function clearCart() {
 
   localStorage.removeItem("cart");
 
-  alert("Cart cleared");
+  dataLayer.push({ ecommerce: null });
 
-  window.location.href =
-    "cart-cleared.html?status=success";
+  dataLayer.push({
+    event: "cart_cleared"
+  });
+
+  document.getElementById("cart-items").innerHTML = "";
+  document.getElementById("cart-total").innerText = "0";
+
+  alert("Cart cleared successfully");
 }
 
 // LOGOUT
