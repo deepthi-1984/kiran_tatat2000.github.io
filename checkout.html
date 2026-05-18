@@ -229,9 +229,15 @@ function proceedToPayment() {
     return;
   }
 
-  // USER LOGGED IN
+// CREATE DYNAMIC ORDER ID
+  const orderId =
+    'ORD' + Date.now();
+
+  // SEND DYNAMIC AMOUNT
   window.location.href =
-  'payment.html?amount=' + totalAmount;
+    'payment.html' +
+    '?order_id=' + orderId +
+    '&amount=' + totalAmount;
 }
 
 // CLEAR CART
