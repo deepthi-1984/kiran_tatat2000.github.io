@@ -81,11 +81,62 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 <button id="cta-button" class="cta-button">Click Me</button>
     <a href="login.html" class="nav-link login-link">Login</a>
-    
+
+ <div id="home-promo" class="homepage-promo">
+    <h2>Summer Sale - Up to 40% Off</h2>
+    <a href="products.html" id="promo-click">Shop Now</a>
+</div>   
     <hr>
     <br><br>
     
+<script>
+window.dataLayer = window.dataLayer || [];
 
+function sendPromotionImpression() {
+  dataLayer.push({
+    event: "view_promotion",
+    ecommerce: {
+      items: [{
+        item_id: "HOME_PROMO_01",
+        item_name: "Summer Sale Banner",
+        promotion_name: "Summer Sale 2026",
+        creative_name: "Homepage Hero Banner",
+        location_id: "homepage_top"
+      }]
+    }
+  });
+}
+
+// Simple visibility trigger
+var promo = document.getElementById("home-promo");
+
+var observer = new IntersectionObserver(function(entries) {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      sendPromotionImpression();
+      observer.unobserve(promo); // fire once only
+    }
+  });
+}, { threshold: 0.5 });
+
+observer.observe(promo);
+</script>
+    <script>
+document.getElementById("promo-click").addEventListener("click", function () {
+  dataLayer.push({
+    event: "select_promotion",
+    ecommerce: {
+      items: [{
+        item_id: "HOME_PROMO_01",
+        item_name: "Summer Sale Banner",
+        promotion_name: "Summer Sale 2026",
+        creative_name: "Homepage Hero Banner",
+        location_id: "homepage_top"
+      }]
+    }
+  });
+});
+</script>
     <script>
 document.getElementById("cta-button").addEventListener("click", function () {
   window.dataLayer = window.dataLayer || [];
