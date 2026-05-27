@@ -245,14 +245,15 @@ function clearCart() {
 
   localStorage.removeItem("cart");
 
-  dataLayer.push({ ecommerce: null });
-
   dataLayer.push({
-    event: "cart_cleared"
-  });
+  event: "remove_from_cart",
+  ecommerce: {
+    items: cartItems
+  }
+});
 
-  document.getElementById("cart-items").innerHTML = "";
-  document.getElementById("cart-total").innerText = "0";
+  document.getElementById("checkoutContainer").innerHTML = "";
+  document.getElementById("checkoutTotal").innerText = "0";
 
   alert("Cart cleared successfully");
 }
@@ -262,9 +263,7 @@ function logoutUser() {
 
   localStorage.removeItem('user_id');
 
-  localStorage.removeItem(
-    'redirect_after_login'
-  );
+  localStorage.setItem('redirect_after_login', 'https://mywebsitepayment.netlify.app/payment.html');
 
   alert('Logged out successfully');
 
