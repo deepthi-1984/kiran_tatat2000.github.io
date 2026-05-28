@@ -2,273 +2,141 @@
 <html lang="en">
 
 <head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Checkout</title>
 
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- Google Tag Manager -->
+<script>
+(function(w,d,s,l,i){
+  w[l]=w[l]||[];
+  w[l].push({'gtm.start': new Date().getTime(), event:'gtm.js'});
+  var f=d.getElementsByTagName(s)[0],
+      j=d.createElement(s),
+      dl=l!='dataLayer'?'&l='+l:'';
+  j.async=true;
+  j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;
+  f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-K2QGFTBD');
+</script>
+<!-- End GTM -->
 
-  <title>Checkout</title>
-
-  <!-- Google Tag Manager -->
-  <script>
-  (function(w,d,s,l,i){
-    w[l]=w[l]||[];
-
-    w[l].push({
-      'gtm.start': new Date().getTime(),
-      event:'gtm.js'
-    });
-
-    var f = d.getElementsByTagName(s)[0],
-        j = d.createElement(s),
-        dl = l != 'dataLayer' ? '&l=' + l : '';
-
-    j.async = true;
-    j.src =
-      'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
-
-    f.parentNode.insertBefore(j,f);
-
-  })(window,document,'script','dataLayer','GTM-K2QGFTBD');
-  </script>
-  <!-- End Google Tag Manager -->
-
-  <style>
-
-    body {
-      font-family: Arial, sans-serif;
-      padding: 20px;
-    }
-
-    .product-box {
-      border: 1px solid #ccc;
-      padding: 15px;
-      margin-bottom: 15px;
-      border-radius: 6px;
-    }
-
-    button {
-      padding: 10px 16px;
-      cursor: pointer;
-      margin-right: 10px;
-    }
-
-    nav {
-      margin-top: 20px;
-    }
-
-  </style>
+<style>
+body { font-family: Arial; padding: 20px; }
+.product-box { border: 1px solid #ccc; padding: 15px; margin-bottom: 15px; }
+button { padding: 10px 16px; cursor: pointer; margin-right: 10px; }
+nav { margin-top: 20px; }
+#paymentLink { display:inline-block; margin: 15px 0; padding:10px 14px; background:#000; color:#fff; text-decoration:none; }
+</style>
 
 </head>
 
 <body>
 
-<!-- Google Tag Manager (noscript) -->
+<!-- GTM noscript -->
 <noscript>
-  <iframe
-    src="https://www.googletagmanager.com/ns.html?id=GTM-K2QGFTBD"
-    height="0"
-    width="0"
-    style="display:none;visibility:hidden">
-  </iframe>
+<iframe src="https://www.googletagmanager.com/ns.html?id=GTM-K2QGFTBD"
+height="0" width="0" style="display:none;visibility:hidden"></iframe>
 </noscript>
-<!-- End Google Tag Manager (noscript) -->
 
 <h1>Checkout</h1>
 
 <div id="checkout-container"></div>
-
 <h2 id="checkout-total"></h2>
 
-<button onclick="proceedToPayment()">
-  Proceed to Payment
-</button>
+<!-- PAYMENT LINK -->
+<a id="paymentLink" href="#">Proceed to Payment</a>
 
-<button onclick="clearCart()">
-  Clear Cart
-</button>
-
-<button onclick="logoutUser()">
-  Logout
-</button>
+<button onclick="clearCart()">Clear Cart</button>
+<button onclick="logoutUser()">Logout</button>
 
 <nav>
-
-  <a href="index.html">Home</a> |
-  <a href="products.html">Products</a> |
-  <a href="product-detail.html">Product Detail</a> |
-  <a href="cart.html">Cart</a> |
-  <a href="checkout.html">Checkout</a> |
-  <a href="about.html">About</a> |
-  <a href="login.html">Login</a>
-
+<a href="index.html">Home</a> |
+<a href="products.html">Products</a> |
+<a href="cart.html">Cart</a> |
+<a href="checkout.html">Checkout</a> |
+<a href="login.html">Login</a>
 </nav>
-
-<hr>
 
 <script>
 
 window.dataLayer = window.dataLayer || [];
 
-// GET CART
-const cartItems =
-  JSON.parse(localStorage.getItem("cart")) || [];
+const cartItems = JSON.parse(localStorage.getItem("cart")) || [];
 
-// DOM ELEMENTS
-const checkoutContainer =
-  document.getElementById("checkout-container");
-
-const checkoutTotal =
-  document.getElementById("checkout-total");
+const checkoutContainer = document.getElementById("checkout-container");
+const checkoutTotal = document.getElementById("checkout-total");
+const paymentLink = document.getElementById("paymentLink");
 
 let totalAmount = 0;
 
 // LOGIN CHECK
 function isLoggedIn() {
-
-  const user =
-    localStorage.getItem('user_id');
-
-  return user !== null && user !== '';
+  return localStorage.getItem('user_id');
 }
 
-// RENDER EMPTY CART
+// RENDER CART
 if (cartItems.length === 0) {
-
-  checkoutContainer.innerHTML =
-    "<p>Your cart is empty.</p>";
-
+  checkoutContainer.innerHTML = "<p>Your cart is empty.</p>";
 } else {
 
-  // RENDER PRODUCTS
-  cartItems.forEach(function(item) {
-
-    totalAmount +=
-      item.price * item.quantity;
+  cartItems.forEach(item => {
+    totalAmount += item.price * item.quantity;
 
     checkoutContainer.innerHTML += `
-
       <div class="product-box">
-
         <h3>${item.item_name}</h3>
-
-        <p>
-          Category:
-          ${item.item_category}
-        </p>
-
-        <p>
-          Price:
-          $${item.price}
-        </p>
-
-        <p>
-          Quantity:
-          ${item.quantity}
-        </p>
-
+        <p>${item.item_category}</p>
+        <p>$${item.price}</p>
+        <p>Qty: ${item.quantity}</p>
       </div>
-
     `;
   });
 
-  // SHOW TOTAL
-  checkoutTotal.innerText =
-    "Total Amount: $" + totalAmount;
+  checkoutTotal.innerText = "Total: $" + totalAmount;
 
-  // BEGIN CHECKOUT EVENT
   dataLayer.push({
-
     event: "begin_checkout",
-
     ecommerce: {
-
       currency: "USD",
-
       value: totalAmount,
-
-      items: cartItems.map(item => ({
-
-        item_id:
-          item.item_id || item.item_name,
-
-        item_name:
-          item.item_name,
-
-        item_category:
-          item.item_category,
-
-        price:
-          item.price,
-
-        quantity:
-          item.quantity
-
-      }))
+      items: cartItems
     }
   });
-
-  console.log("begin_checkout fired");
 }
 
-// PROCEED TO PAYMENT
-function proceedToPayment() {
+// BUILD PAYMENT URL (IMPORTANT PART)
+const orderId = 'ORD' + Date.now();
 
-  // CHECK LOGIN
-  if (!isLoggedIn()) {
+const paymentUrl =
+  'https://mywebsitepayment.netlify.app/payment.html'
+  + '?order_id=' + orderId
+  + '&amount=' + totalAmount;
 
-    // SAVE REDIRECT PAGE
-    localStorage.setItem(
-      'redirect_after_login',
-      'https://mywebsitepayment.netlify.app/payment.html'
-    );
+// SET HREF (THIS IS WHAT ENABLES _gl)
+paymentLink.href = paymentUrl;
 
-    // REDIRECT TO LOGIN
-    window.location.href =
-      'login.html';
-
-    return;
-  }
-
-// CREATE DYNAMIC ORDER ID
-  const orderId =
-    'ORD' + Date.now();
-
-  // SEND DYNAMIC AMOUNT
-  window.location.href =
-    'https://mywebsitepayment.netlify.app/payment.html' +
-    '?order_id=' + orderId +
-    '&amount=' + totalAmount;
-}
+// OPTIONAL: click tracking hook
+paymentLink.addEventListener("click", function () {
+  console.log("Redirecting to payment...");
+});
 
 // CLEAR CART
 function clearCart() {
-
   localStorage.removeItem("cart");
 
   dataLayer.push({
-  event: "remove_from_cart",
-  ecommerce: {
-    items: cartItems
-  }
-});
+    event: "remove_from_cart"
+  });
 
-  document.getElementById("checkoutContainer").innerHTML = "";
-  document.getElementById("checkoutTotal").innerText = "0";
-
-  alert("Cart cleared successfully");
+  checkoutContainer.innerHTML = "";
+  checkoutTotal.innerText = "0";
 }
 
 // LOGOUT
 function logoutUser() {
-
   localStorage.removeItem('user_id');
-
-  localStorage.setItem('redirect_after_login', 'https://mywebsitepayment.netlify.app/payment.html');
-
-  alert('Logged out successfully');
-
-  window.location.href =
-    'login.html';
+  window.location.href = "login.html";
 }
 
 </script>
